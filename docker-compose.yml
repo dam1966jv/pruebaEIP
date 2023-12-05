@@ -1,0 +1,31 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+      DB_CONNECTION: mysql
+      DB_HOST: mysql  # Utiliza el nombre del servicio del contenedor de MySQL
+      DB_PORT: 3306
+      DB_DATABASE: biblioteca
+      DB_USERNAME: root
+      DB_PASSWORD:
+    command: ["apache2-foreground"]
+    
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: biblioteca
+
+
+
+  
